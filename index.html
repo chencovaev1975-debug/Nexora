@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="NEXORA — бесплатные инструменты для ПК, геймеров и энтузиастов технологий.">
+  <title>NEXORA — Your PC. Your Power.</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* NEXORA hero pretitle */
+    .nx-hero-pretitle {
+      display: inline-flex; align-items: center; gap: 11px;
+      margin: 0 0 22px; padding: 10px 16px;
+      border: 1px solid rgba(100,160,255,.22); border-radius: 999px;
+      background: rgba(30,65,120,.16); backdrop-filter: blur(12px);
+      color: #b9d5ff; font: 700 10px/1.4 Inter, sans-serif;
+      letter-spacing: 1.5px; animation: nxPretitleIn .8s ease both;
+    }
+    .nx-hero-pretitle .nx-status-dot {
+      width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%;
+      background: #55f5ae; box-shadow: 0 0 12px #55f5ae;
+      animation: nxStatusPulse 2s ease-in-out infinite;
+    }
+    .nx-hero-pretitle .nx-status-label { color: #65f5b4; }
+    .nx-hero-pretitle .nx-divider {
+      width: 1px; height: 13px; background: rgba(150,190,255,.3);
+    }
+    .nx-hero-pretitle .nx-caption { color: rgba(190,210,240,.72); }
+    @keyframes nxStatusPulse {
+      0%,100% { opacity: 1; box-shadow: 0 0 12px #55f5ae; }
+      50% { opacity: .5; box-shadow: 0 0 3px #55f5ae; }
+    }
+    @keyframes nxPretitleIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      .nx-hero-pretitle { gap: 7px; padding: 9px 11px; font-size: 8px; letter-spacing: .8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nx-hero-pretitle, .nx-hero-pretitle .nx-status-dot { animation: none; }
+    }
+  </style>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="NEXORA — главная">
+      <span class="brand-mark">N</span>
+      <span>NEXORA</span>
+    </a>
+
+    <nav class="navigation" aria-label="Главная навигация">
+      <a href="#tools">Инструменты</a>
+      <a href="#about">О проекте</a>
+    </nav>
+
+    <a class="header-button" href="#tools">Начать <span>↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="nx-hero-pretitle" aria-label="NEXORA system online">
+        <span class="nx-status-dot" aria-hidden="true"></span>
+        <span class="nx-status-label">SYSTEM ONLINE</span>
+        <span class="nx-divider" aria-hidden="true"></span>
+        <span class="nx-caption">BUILT FOR GAMERS. POWERED BY TECHNOLOGY.</span>
+      </div>
+      <div class="hero-badge"><span class="status-dot"></span> ТВОЯ ТЕХНОЛОГИЧЕСКАЯ ПЛАТФОРМА</div>
+      <h1>Твой ПК.<br><span>Твои возможности.</span></h1>
+      <p class="hero-description">
+        Полезные инструменты для компьютера, гейминга и технологий.
+        Бесплатно, просто и в одном месте.
+      </p>
+      <a class="primary-button" href="#tools">Исследовать инструменты <span>→</span></a>
+
+      <div class="hero-stats">
+        <div><strong>10</strong><span>Инструментов</span></div>
+        <div><strong>100%</strong><span>Бесплатный доступ</span></div>
+        <div><strong>0</strong><span>Регистраций</span></div>
+      </div>
+    </section>
+
+    <section class="tools-section" id="tools">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">NEXORA TOOLKIT</span>
+          <h2>Выбери свой инструмент</h2>
+          <p>Всё необходимое для твоего цифрового пространства.</p>
+        </div>
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="toolSearch" type="search" placeholder="Найти инструмент..." aria-label="Поиск инструментов">
+        </label>
+      </div>
+
+      <div class="tool-grid" id="toolGrid">
+        <button class="tool-card" data-target="psu" data-search="блок питания мощность ватт psu калькулятор">
+          <span class="tool-icon blue">ϟ</span>
+          <span class="tool-category">КОМПЛЕКТУЮЩИЕ</span>
+          <strong>Калькулятор БП</strong>
+          <span class="tool-description">Оцени необходимую мощность блока питания.</span>
+          <span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+
+        <button class="tool-card" data-target="dpi" data-search="мышь dpi edpi чувствительность gaming">
+          <span class="tool-icon purple">⌖</span>
+          <span class="tool-category">ГЕЙМИНГ</span>
+          <strong>DPI калькулятор</strong>
+          <span class="tool-description">Рассчитай eDPI и пересчитай чувствительность.</span>
+          <span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+
+        <button class="tool-card" data-target="converter" data-search="конвертер gb mb tb mhz ghz единицы">
+          <span class="tool-icon cyan">⇄</span>
+          <span class="tool-category">КОНВЕРТЕРЫ</span>
+          <strong>Конвертер единиц</strong>
+          <span class="tool-description">Переводи объём памяти и частоты.</span>
+          <span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+
+        <button class="tool-card" data-target="nickname" data-search="генератор никнеймов ников gamer name">
+          <span class="tool-icon pink">✦</span>
+          <span class="tool-category">РАЗВЛЕЧЕНИЯ</span>
+          <strong>Генератор ников</strong>
+          <span class="tool-description">Придумай себе новое игровое имя.</span>
+          <span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+
+        <button class="tool-card" data-target="compatibility" data-search="совместимость пк процессор видеокарта ram">
+          <span class="tool-icon green">⌘</span>
+          <span class="tool-category">КОМПЛЕКТУЮЩИЕ</span>
+          <strong>Проверка сборки</strong>
+          <span class="tool-description">Проверь основные моменты перед сборкой ПК.</span>
+          <span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+
+        <button class="tool-card" data-target="fps" data-search="fps калькулятор игры производительность видеокарта процессор">
+          <span class="tool-icon blue">▣</span><span class="tool-category">ГЕЙМИНГ</span>
+          <strong>FPS-калькулятор</strong><span class="tool-description">Оцени примерный диапазон кадров в играх.</span><span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+        <button class="tool-card" data-target="monitor" data-search="монитор ppi диагональ разрешение плотность пикселей герцы">
+          <span class="tool-icon cyan">▤</span><span class="tool-category">МОНИТОРЫ</span>
+          <strong>Монитор-калькулятор</strong><span class="tool-description">Рассчитай PPI и соотношение сторон.</span><span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+        <button class="tool-card" data-target="windows" data-search="windows gaming assistant горячие клавиши сочетания клавиш виндовс">
+          <span class="tool-icon purple">⌨</span><span class="tool-category">WINDOWS</span>
+          <strong>Windows Gaming Assistant</strong><span class="tool-description">Полезные сочетания клавиш для игр и системы.</span><span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+        <button class="tool-card" data-target="temperature" data-search="температура cpu gpu процессор видеокарта нагрев">
+          <span class="tool-icon pink">♨</span><span class="tool-category">МОНИТОРИНГ</span>
+          <strong>Гид температур</strong><span class="tool-description">Разберись в температурах CPU и GPU.</span><span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+        <button class="tool-card" data-target="lab" data-search="nexora lab лаборатория эксперименты идеи">
+          <span class="tool-icon green">✧</span><span class="tool-category">ЭКСПЕРИМЕНТЫ</span>
+          <strong>NEXORA LAB</strong><span class="tool-description">Мини-инструменты и эксперименты проекта.</span><span class="tool-link">Открыть инструмент <b>↗</b></span>
+        </button>
+      </div>
+      <p class="empty-state hidden" id="emptyState">Ничего не найдено. Попробуй другой запрос.</p>
+    </section>
+
+    <section class="workspace" id="workspace">
+      <div class="workspace-heading">
+        <span class="eyebrow">ИНСТРУМЕНТЫ NEXORA</span>
+        <h2>Рабочая область</h2>
+        <p>Выбери инструмент выше — он появится здесь.</p>
+      </div>
+
+      <section class="tool-panel" id="psu">
+        <div class="panel-title"><span class="tool-icon blue">ϟ</span><div><span class="eyebrow">POWER SUPPLY</span><h3>Калькулятор блока питания</h3></div></div>
+        <p class="panel-description">Введи примерное энергопотребление процессора и видеокарты. Мы добавим запас мощности.</p>
+        <div class="form-grid">
+          <label>Потребление CPU (Вт)<input id="cpuW" type="number" min="1" max="2000" placeholder="Например, 100"></label>
+          <label>Потребление GPU (Вт)<input id="gpuW" type="number" min="1" max="2000" placeholder="Например, 200"></label>
+          <label>Остальные компоненты (Вт)<input id="otherW" type="number" min="0" max="1000" value="70"></label>
+          <label>Запас мощности (%)<input id="headroom" type="number" min="0" max="100" value="30"></label>
+        </div>
+        <button class="primary-button action-button" id="calculatePsu">Рассчитать мощность</button>
+        <div class="result-box" id="psuResult" aria-live="polite">Результат появится здесь.</div>
+        <p class="small-note">Это ориентировочная оценка, а не гарантия совместимости. Учитывай пиковое потребление, разъёмы и рекомендации производителей.</p>
+      </section>
+
+      <section class="tool-panel" id="dpi">
+        <div class="panel-title"><span class="tool-icon purple">⌖</span><div><span class="eyebrow">GAMING SENSITIVITY</span><h3>DPI калькулятор</h3></div></div>
+        <p class="panel-description">Рассчитай эффективную чувствительность мыши (eDPI).</p>
+        <div class="form-grid">
+          <label>DPI мыши<input id="dpiValue" type="number" min="1" max="100000" placeholder="800"></label>
+          <label>Чувствительность в игре<input id="sensValue" type="number" min="0.001" max="100000" step="any" placeholder="1.5"></label>
+        </div>
+        <button class="primary-button action-button" id="calculateDpi">Рассчитать eDPI</button>
+        <div class="result-box" id="dpiResult" aria-live="polite">Результат появится здесь.</div>
+        <div class="subtool">
+          <h4>Пересчёт чувствительности</h4>
+          <div class="form-grid">
+            <label>Текущая чувствительность<input id="oldSens" type="number" min="0.001" step="any" placeholder="1.5"></label>
+            <label>Старый DPI<input id="oldDpi" type="number" min="1" placeholder="800"></label>
+            <label>Новый DPI<input id="newDpi" type="number" min="1" placeholder="1600"></label>
+          </div>
+          <button class="secondary-button" id="convertSens">Пересчитать</button>
+          <div class="result-box compact" id="sensResult" aria-live="polite">Новая чувствительность появится здесь.</div>
+        </div>
+        <p class="small-note">eDPI полезен для сравнения настроек внутри одной игры. Чувствительность между разными играми может ощущаться по-разному.</p>
+      </section>
+
+      <section class="tool-panel" id="converter">
+        <div class="panel-title"><span class="tool-icon cyan">⇄</span><div><span class="eyebrow">UNIT CONVERTER</span><h3>Конвертер единиц</h3></div></div>
+        <div class="form-grid">
+          <label>Значение<input id="convertValue" type="number" min="0" step="any" placeholder="Например, 1024"></label>
+          <label>Тип конвертации
+            <select id="convertType">
+              <option value="storage">Память: GB → MB</option>
+              <option value="frequency">Частота: GHz → MHz</option>
+            </select>
+          </label>
+        </div>
+        <button class="primary-button action-button" id="convertUnits">Конвертировать</button>
+        <div class="result-box" id="unitResult" aria-live="polite">Результат появится здесь.</div>
+        <p class="small-note">Для памяти используются двоичные единицы: 1 GiB = 1024 MiB. Для частоты: 1 GHz = 1000 MHz.</p>
+      </section>
+
+      <section class="tool-panel" id="nickname">
+        <div class="panel-title"><span class="tool-icon pink">✦</span><div><span class="eyebrow">NICKNAME GENERATOR</span><h3>Генератор игровых ников</h3></div></div>
+        <p class="panel-description">Создай уникальное на вид имя для игры или профиля.</p>
+        <div class="nickname-output" id="nicknameOutput">NEXO_RIDER</div>
+        <div class="button-row">
+          <button class="primary-button" id="generateNick">Создать ник ↻</button>
+          <button class="secondary-button" id="copyNick">Копировать</button>
+        </div>
+        <p class="small-note" id="copyStatus" aria-live="polite">Нажми «Создать ник», чтобы получить новый вариант.</p>
+      </section>
+
+      <section class="tool-panel" id="compatibility">
+        <div class="panel-title"><span class="tool-icon green">⌘</span><div><span class="eyebrow">BUILD CHECKLIST</span><h3>Проверка сборки ПК</h3></div></div>
+        <p class="panel-description">Отметь пункты, которые ты проверил перед покупкой комплектующих или сборкой.</p>
+        <div class="checklist" id="buildChecklist">
+          <label><input type="checkbox"> Процессор подходит к сокету материнской платы</label>
+          <label><input type="checkbox"> Материнская плата поддерживает процессор и его BIOS</label>
+          <label><input type="checkbox"> Оперативная память поддерживается платой</label>
+          <label><input type="checkbox"> Видеокарта помещается в корпус</label>
+          <label><input type="checkbox"> Кулер подходит к сокету и помещается по высоте</label>
+          <label><input type="checkbox"> Блок питания имеет нужную мощность и разъёмы</label>
+          <label><input type="checkbox"> Накопители совместимы с разъёмами платы</label>
+        </div>
+        <div class="check-progress"><span id="checkProgress">Проверено: 0 из 7</span><div class="progress-track"><span id="progressFill"></span></div></div>
+        <p class="small-note">Это контрольный список, а не автоматическая проверка совместимости. Перед покупкой сверяй характеристики на сайтах производителей.</p>
+      </section>
+
+      <section class="tool-panel" id="fps">
+        <div class="panel-title"><span class="tool-icon blue">▣</span><div><span class="eyebrow">FPS ESTIMATOR</span><h3>Оценка FPS в играх</h3></div></div>
+        <p class="panel-description">Выбери игру, разрешение и условный класс производительности. Это грубая оценка, а не база реальных тестов конкретных комплектующих.</p>
+        <div class="form-grid">
+          <label>Игра<select id="fpsGame"><option value="competitive">Киберспортивная игра</option><option value="popular">Популярная AAA-игра</option><option value="heavy">Требовательная AAA-игра</option></select></label>
+          <label>Разрешение<select id="fpsResolution"><option value="1.18">1920 × 1080</option><option value="1">2560 × 1440</option><option value="0.72">3840 × 2160</option></select></label>
+          <label>Класс видеокарты<select id="fpsGpu"><option value="low">Начальный</option><option value="mid" selected>Средний</option><option value="high">Высокий</option><option value="enthusiast">Очень высокий</option></select></label>
+          <label>Класс процессора<select id="fpsCpu"><option value="low">Начальный</option><option value="mid" selected>Средний</option><option value="high">Высокий</option></select></label>
+        </div>
+        <button class="primary-button" id="estimateFps">Оценить FPS</button><div class="result-box" id="fpsResult" aria-live="polite">Выбери параметры и нажми «Оценить FPS».</div>
+        <p class="small-note">Фактический FPS зависит от конкретных моделей CPU/GPU, ОЗУ, настроек графики, версии игры и драйверов. Не используй оценку как гарантию покупки.</p>
+      </section>
+      <section class="tool-panel" id="monitor">
+        <div class="panel-title"><span class="tool-icon cyan">▤</span><div><span class="eyebrow">DISPLAY CALCULATOR</span><h3>Монитор-калькулятор</h3></div></div>
+        <div class="form-grid">
+          <label>Диагональ (дюймы)<input id="monitorSize" type="number" min="1" max="100" step="any" placeholder="Например, 27"></label>
+          <label>Разрешение<select id="monitorResolution"><option value="1920,1080">1920 × 1080 (Full HD)</option><option value="2560,1440">2560 × 1440 (QHD)</option><option value="3840,2160">3840 × 2160 (4K)</option><option value="2560,1080">2560 × 1080 (Ultrawide)</option><option value="3440,1440">3440 × 1440 (Ultrawide QHD)</option></select></label>
+        </div>
+        <button class="primary-button" id="calculateMonitor">Рассчитать PPI</button><div class="result-box" id="monitorResult" aria-live="polite">Результат появится здесь.</div>
+      </section>
+      <section class="tool-panel" id="windows">
+        <div class="panel-title"><span class="tool-icon purple">⌨</span><div><span class="eyebrow">WINDOWS GAMING</span><h3>Windows Gaming Assistant</h3></div></div>
+        <p class="panel-description">Полезные сочетания клавиш. Нажми «Копировать», чтобы сохранить комбинацию.</p>
+        <div class="shortcut-list">
+          <div><kbd>Win</kbd> + <kbd>G</kbd><span>Открыть Xbox Game Bar</span><button class="secondary-button copy-shortcut" data-copy="Win + G">Копировать</button></div>
+          <div><kbd>Win</kbd> + <kbd>Alt</kbd> + <kbd>R</kbd><span>Начать или остановить запись</span><button class="secondary-button copy-shortcut" data-copy="Win + Alt + R">Копировать</button></div>
+          <div><kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd><span>Сделать снимок области экрана</span><button class="secondary-button copy-shortcut" data-copy="Win + Shift + S">Копировать</button></div>
+          <div><kbd>Alt</kbd> + <kbd>Tab</kbd><span>Переключиться между окнами</span><button class="secondary-button copy-shortcut" data-copy="Alt + Tab">Копировать</button></div>
+          <div><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd><span>Открыть диспетчер задач</span><button class="secondary-button copy-shortcut" data-copy="Ctrl + Shift + Esc">Копировать</button></div>
+        </div><div class="result-box compact" id="shortcutStatus" aria-live="polite">Некоторые сочетания зависят от настроек Windows и приложения.</div>
+      </section>
+      <section class="tool-panel" id="temperature">
+        <div class="panel-title"><span class="tool-icon pink">♨</span><div><span class="eyebrow">THERMAL GUIDE</span><h3>Гид температур CPU и GPU</h3></div></div>
+        <p class="panel-description">Ориентировочные диапазоны для многих современных настольных систем. Точные пределы зависят от модели.</p>
+        <div class="temperature-grid"><article><h4>CPU</h4><p><b>30–50 °C</b> — простой</p><p><b>60–85 °C</b> — нагрузка часто нормальна</p><p><b>90 °C и выше</b> — проверь модель, охлаждение и лимиты</p></article><article><h4>GPU</h4><p><b>30–50 °C</b> — простой</p><p><b>60–85 °C</b> — нагрузка часто нормальна</p><p><b>90 °C и выше</b> — проверь температуру ядра и hotspot</p></article></div>
+        <p class="small-note">Не все процессоры и видеокарты имеют одинаковые температурные пределы. Сверяйся со спецификацией производителя; кратковременный пик сам по себе не всегда означает неисправность.</p>
+      </section>
+      <section class="tool-panel" id="lab">
+        <div class="panel-title"><span class="tool-icon green">✧</span><div><span class="eyebrow">EXPERIMENTAL ZONE</span><h3>NEXORA LAB</h3></div></div>
+        <p class="panel-description">Небольшая лаборатория полезных экспериментов.</p>
+        <div class="form-grid"><label>Сколько минут играешь в день?<input id="labMinutes" type="number" min="0" max="1440" placeholder="120"></label><label>Сколько дней в неделю?<input id="labDays" type="number" min="0" max="7" placeholder="5"></label></div>
+        <button class="primary-button" id="calculatePlaytime">Посчитать игровое время</button><div class="result-box" id="labResult" aria-live="polite">Узнай, сколько времени уходит на игры за неделю и год.</div>
+      </section>
+    </section>
+
+    <section class="about-section" id="about">
+      <span class="eyebrow">ABOUT NEXORA</span>
+      <h2>Технологии должны быть проще.</h2>
+      <p>NEXORA — независимый проект с бесплатными инструментами для пользователей ПК и геймеров. Мы хотим собирать полезные возможности в одном удобном месте.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="brand" href="#"><span class="brand-mark">N</span><span>NEXORA</span></a>
+    <span>© <span id="year"></span> NEXORA. Независимый проект.</span>
+    <a href="#tools">К инструментам ↑</a>
+  </footer>
+<div class="nexora-particles" aria-hidden="true"></div>
+<div class="nexora-orbit nexora-orbit-one" aria-hidden="true"></div>
+<div class="nexora-orbit nexora-orbit-two" aria-hidden="true"></div>
+</body>
+</html>
