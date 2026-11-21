@@ -9,19 +9,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
 
   const on = (element, event, callback) => {
-    if (element) element.addEventListener(event, callback);
+    if (element) {
+      element.addEventListener(event, callback);
+    }
   };
 
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  const cards = document.querySelectorAll(".tool-card");
-  const panels = document.querySelectorAll(".tool-panel");
+  const cards = [...document.querySelectorAll(".tool-card")];
+  const panels = [...document.querySelectorAll(".tool-panel")];
 
-  // Год в подвале
-  if ($("year")) {
-    $("year").textContent = new Date().getFullYear();
+  // =========================================
+  // FOOTER YEAR
+  // =========================================
+
+  const yearElement = $("year");
+
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
   }
 
   // =========================================
@@ -31,39 +38,35 @@ document.addEventListener("DOMContentLoaded", () => {
   function animatePanel(panel) {
     if (!panel || reduceMotion) return;
 
-    const parts = panel.querySelectorAll(
-      ".panel-title, .panel-description, .form-grid, " +
-      ".action-button, .primary-button, .secondary-button, " +
-      ".result-box, .button-row, .checklist, .check-progress, " +
-      ".shortcut-list, .temperature-grid, .small-note"
-    );
-
-    parts.forEach((part, index) => {
-      part.animate(
-        [
-          {
-            opacity: 0,
-            transform: "translate3d(0, 12px, 0)"
-          },
-          {
-            opacity: 1,
-            transform: "translate3d(0, 0, 0)"
-          }
-        ],
-        {
-          duration: 460,
-          delay: Math.min(index * 38, 190),
-          easing: "cubic-bezier(.2, .8, .2, 1)",
-          fill: "both"
-        }
-      );
+    panel.getAnimations().forEach((animation) => {
+      animation.cancel();
     });
+
+    panel.animate(
+      [
+        {
+          opacity: 0,
+          transform: "translate3d(0, 10px, 0)"
+        },
+        {
+          opacity: 1,
+          transform: "translate3d(0, 0, 0)"
+        }
+      ],
+      {
+        duration: 350,
+        easing: "cubic-bezier(.2, .8, .2, 1)"
+      }
+    );
   }
 
   function openTool(id) {
     const target = $(id);
 
-    if (!target || !target.classList.contains("tool-panel")) {
+    if (
+      !target ||
+      !target.classList.contains("tool-panel")
+    ) {
       return;
     }
 
@@ -82,10 +85,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     animatePanel(target);
 
-    $("workspace")?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "start"
-    });
+    const workspace = $("workspace");
+
+    if (workspace) {
+      const rect = workspace.getBoundingClientRect();
+
+      const isVisible =
+        rect.top >= 0 &&
+        rect.top < window.innerHeight * 0.65;
+
+      if (!isVisible) {
+        workspace.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start"
+        });
+      }
+    }
   }
 
   cards.forEach((card) => {
@@ -100,20 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // TOOL SEARCH
   // =========================================
 
+  const searchableCards = cards.map((card) => ({
+    element: card,
+    text: (
+      card.textContent + " " +
+      (card.dataset.search || "")
+    ).toLowerCase()
+  }));
+
   on($("toolSearch"), "input", (event) => {
     const query = event.target.value.trim().toLowerCase();
+
     let visibleCount = 0;
 
-    cards.forEach((card) => {
-      const searchableText = (
-        card.textContent + " " + (card.dataset.search || "")
-      ).toLowerCase();
+    searchableCards.forEach(({ element, text }) => {
+      const matches = text.includes(query);
 
-      const matches = searchableText.includes(query);
+      element.classList.toggle("hidden", !matches);
 
-      card.classList.toggle("hidden", !matches);
-
-      if (matches) visibleCount++;
+      if (matches) {
+        visibleCount++;
+      }
     });
 
     $("emptyState")?.classList.toggle(
@@ -142,12 +164,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       options.min !== undefined &&
       number < options.min
-    ) return null;
+    ) {
+      return null;
+    }
 
     if (
       options.max !== undefined &&
       number > options.max
-    ) return null;
+    ) {
+      return null;
+    }
 
     return number;
   }
@@ -167,13 +193,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     element.textContent = message;
 
-    if (!reduceMotion) {
-      element.classList.remove("nx-result-pop");
+    if (reduceMotion) return;
 
-      void element.offsetWidth;
+    element.getAnimations().forEach((animation) => {
+      animation.cancel();
+    });
 
-      element.classList.add("nx-result-pop");
-    }
+    element.animate(
+      [
+        {
+          opacity: 0.7,
+          transform: "translate3d(0, 4px, 0)"
+        },
+        {
+          opacity: 1,
+          transform: "translate3d(0, 0, 0)"
+        }
+      ],
+      {
+        duration: 260,
+        easing: "ease-out"
+      }
+    );
   }
 
   function formatNumber(value, maximumFractionDigits = 2) {
@@ -394,24 +435,41 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================
 
   async function copyText(value) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(value);
-      return true;
+    if (
+      navigator.clipboard &&
+      window.isSecureContext
+    ) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return true;
+      } catch {
+        // Переходим к запасному способу.
+      }
     }
 
     const temporary = document.createElement("textarea");
 
     temporary.value = value;
+    temporary.setAttribute("readonly", "");
+
     temporary.style.position = "fixed";
+    temporary.style.left = "-9999px";
+    temporary.style.top = "0";
     temporary.style.opacity = "0";
 
     document.body.appendChild(temporary);
 
+    temporary.focus();
     temporary.select();
+    temporary.setSelectionRange(0, temporary.value.length);
 
-    const copied = document.execCommand("copy");
+    let copied = false;
 
-    temporary.remove();
+    try {
+      copied = document.execCommand("copy");
+    } finally {
+      temporary.remove();
+    }
 
     if (!copied) {
       throw new Error("Copy unavailable");
@@ -445,12 +503,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // BUILD CHECKLIST
   // =========================================
 
-  const checklistItems = document.querySelectorAll(
-    "#buildChecklist input[type='checkbox']"
-  );
+  const checklistItems = [
+    ...document.querySelectorAll(
+      "#buildChecklist input[type='checkbox']"
+    )
+  ];
 
   function updateProgress() {
-    const checked = [...checklistItems].filter(
+    const checked = checklistItems.filter(
       (item) => item.checked
     ).length;
 
@@ -460,14 +520,16 @@ document.addEventListener("DOMContentLoaded", () => {
       ? 0
       : (checked / total) * 100;
 
-    if ($("checkProgress")) {
-      $("checkProgress").textContent =
+    const progressText = $("checkProgress");
+    const progressFill = $("progressFill");
+
+    if (progressText) {
+      progressText.textContent =
         `Проверено: ${checked} из ${total}`;
     }
 
-    if ($("progressFill")) {
-      $("progressFill").style.width =
-        `${percentage}%`;
+    if (progressFill) {
+      progressFill.style.width = `${percentage}%`;
     }
   }
 
@@ -506,7 +568,11 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     if (
-      ![game, gpu, cpu, resolution].every(Number.isFinite)
+      !Number.isFinite(game) ||
+      !Number.isFinite(gpu) ||
+      !Number.isFinite(cpu) ||
+      !Number.isFinite(resolution) ||
+      resolution <= 0
     ) {
       showError(
         "fpsResult",
@@ -594,6 +660,8 @@ document.addEventListener("DOMContentLoaded", () => {
     on(button, "click", async () => {
       const shortcut = button.dataset.copy || "";
 
+      if (!shortcut.trim()) return;
+
       try {
         await copyText(shortcut);
 
@@ -646,21 +714,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // NEXORA — MOTION SYSTEM
   // =========================================
 
-  // ВАЖНО:
-  // Hero намеренно исключён из reveal-анимаций.
-  // Поэтому главный экран сразу виден при загрузке.
+  // Hero намеренно исключён:
+  // главный экран сразу виден при загрузке.
 
-  const revealTargets = document.querySelectorAll(
-    ".topbar, " +
-    ".tools-section .section-heading, " +
-    ".tool-card, " +
-    ".workspace-heading, " +
-    ".about-section, " +
-    ".footer, " +
-    ".subtool, " +
-    ".temperature-grid article, " +
-    ".shortcut-list > div"
-  );
+  const revealTargets = [
+    ...document.querySelectorAll(
+      ".topbar, " +
+      ".tools-section .section-heading, " +
+      ".tool-card, " +
+      ".workspace-heading, " +
+      ".about-section, " +
+      ".footer, " +
+      ".subtool, " +
+      ".temperature-grid article, " +
+      ".shortcut-list > div"
+    )
+  ];
 
   if (
     !reduceMotion &&
@@ -676,14 +745,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (element.classList.contains("tool-card")) {
         element.style.setProperty(
           "--nx-delay",
-          `${(index % 3) * 75}ms`
+          `${(index % 3) * 65}ms`
         );
       }
 
       if (element.matches(".shortcut-list > div")) {
         element.style.setProperty(
           "--nx-delay",
-          `${(index % 5) * 45}ms`
+          `${(index % 5) * 35}ms`
         );
       }
     });
@@ -699,8 +768,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       },
       {
-        threshold: 0.08,
-        rootMargin: "0px 0px -35px 0px"
+        threshold: 0.05,
+        rootMargin: "0px 0px -25px 0px"
       }
     );
 
@@ -714,48 +783,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================
-  // RESULT ANIMATIONS
-  // =========================================
-
-  if (!reduceMotion) {
-    document.querySelectorAll(".result-box").forEach((box) => {
-      const resultObserver = new MutationObserver(() => {
-        box.classList.remove("nx-result-pop");
-
-        void box.offsetWidth;
-
-        box.classList.add("nx-result-pop");
-      });
-
-      resultObserver.observe(box, {
-        childList: true,
-        characterData: true,
-        subtree: true
-      });
-    });
-  }
-
-  // =========================================
-  // PROGRESS BAR ANIMATION
-  // =========================================
-
-  const progress = $("progressFill");
-
-  if (progress && !reduceMotion) {
-    progress.style.transition =
-      "width 650ms cubic-bezier(.2, .8, .2, 1)";
-  }
-
-  // =========================================
   // INITIAL STATE
   // =========================================
 
-  // Главный экран не скрывается анимациями.
   document.querySelectorAll(".hero").forEach((hero) => {
-    hero.classList.remove("nx-reveal", "nexora-reveal");
+    hero.classList.remove(
+      "nx-reveal",
+      "nexora-reveal"
+    );
   });
 
   console.info(
-    "NEXORA: Core, tools and motion system loaded successfully."
+    "NEXORA: Optimized core, tools and motion system loaded."
   );
 });
