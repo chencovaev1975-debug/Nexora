@@ -3413,3 +3413,58 @@ body {
     pointer-events: none;
     z-index: -1;
 }
+
+/* =========================================
+   NEXORA — MOBILE STABILITY PATCH
+   ========================================= */
+
+@media (max-width: 700px) {
+
+  /* Не даём блокам исчезать при прокрутке */
+  html.nx-motion-ready .nx-reveal,
+  html.nx-motion-ready .nx-reveal.nx-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Уменьшаем нагрузку фоновых эффектов */
+  body::before,
+  body::after {
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .background-glow {
+    filter: blur(35px) !important;
+    opacity: 0.12 !important;
+    animation: none !important;
+  }
+
+  /* Убираем лишнюю работу браузера */
+  .tool-card,
+  .tool-panel,
+  .subtool {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Сохраняем лёгкую реакцию карточек */
+  .tool-card {
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease !important;
+  }
+
+  button,
+  .primary-button,
+  .secondary-button {
+    transition:
+      transform 0.18s ease,
+      background-color 0.18s ease !important;
+  }
+}
